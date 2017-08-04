@@ -5,20 +5,14 @@ const b = require('b_').with('my-component');
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-function jsonp(url, callback) {
-    const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-    window[callbackName] = function(data) {
-        delete window[callbackName];
-        document.body.removeChild(script);
-        callback(data);
-    };
-
-    const script = document.createElement('script');
-    script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
-    document.body.appendChild(script);
-}
+import InstagramAPI from '../../instagram-api';
 
 class MyComponent extends Component {
+    constructor (props) {
+        super();
+        this.instagramApi = new InstagramAPI(props.token);
+    }
+
     componentDidMount() {
         const map = L.map('map', {
             center: [37.505, 50.09],
@@ -31,7 +25,7 @@ class MyComponent extends Component {
         }).addTo(map);
 
         const accessToken = this.props.token;
-        jsonp(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${accessToken}`, function(response) {
+        this.instagramApi.requestSelfPosts().then((response) => {
             console.log(response);
 
             response.data
@@ -40,13 +34,11 @@ class MyComponent extends Component {
                 })
                 .forEach((item) => {
                     const {
-                        url,
-                        width,
-                        height
+                        url
                     } = item.images.thumbnail;
                     const imageIcon = L.icon({
                         iconUrl: url,
-                        iconSize: [width / 3, height / 3],
+                        iconSize: [50, 50],
                         className: 'my-icon'
                     });
 

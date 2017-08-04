@@ -6,6 +6,8 @@ export default new Promise((resolve, reject) => {
     const token = window.localStorage.getItem('token');
     if (token) {
         // TOOD: add token validation
+        // check token -> if (works) -> resolve
+        // else requestToken
         resolve(token);
     } else {
         const code = location.search.split('=')[1];
