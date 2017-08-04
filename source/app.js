@@ -11,6 +11,6 @@ auth.then((token) => {
         <div>
             <MyComponent token={token}/>
         </div>
-    ), document.body);
+    ), document.getElementById('app'));
 });
 
