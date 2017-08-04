@@ -5,8 +5,6 @@ const b = require('b_').with('my-component');
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const accessToken = '1307823163.cf0a846.3772542ff2a2498d96d4153efb9e6203';
-
 function jsonp(url, callback) {
     const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
@@ -32,6 +30,7 @@ class MyComponent extends Component {
             accessToken: 'pk.eyJ1IjoiYW5kcmV3LWFicmFtb3YiLCJhIjoiY2o1eTdkY3V4MGFtdzMycXBmd291OXV2ZCJ9.GHLJyltLWeHbKn0EwDvpOw'
         }).addTo(map);
 
+        const accessToken = this.props.token;
         jsonp(`https://api.instagram.com/v1/users/1307823163/media/recent/?access_token=${accessToken}`, function({ data }) {
             data
                 .filter((item) => {
