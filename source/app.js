@@ -7,7 +7,7 @@ import MyComponent from './components/my-component';
 
 const clientId = 'cf0a8460eaa7464091678414ee1c1525';
 const clientSecret = '16cf86bd38df43cbb39ace4d0bd88e8e';
-const url = `${location.protocol}//${location.host}${location.pathname ? location.pathname : ''}`;
+const url = `${location.protocol}//${location.host}${location.pathname}`;
 
 function renderApplication(token) {
     render((
@@ -19,7 +19,7 @@ function renderApplication(token) {
 
 const code = location.search.split('=')[1];
 if (code) {
-    history.pushState({}, '', '/');
+    history.pushState({}, '', location.pathname);
     const formData = new FormData();
     formData.append("client_id", clientId);
     formData.append("client_secret", clientSecret);
