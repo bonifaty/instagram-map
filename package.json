@@ -1,0 +1,42 @@
+{
+  "name": "instagram-map",
+  "version": "1.0.0",
+  "description": "Web app to show instagram posts",
+  "main": "index.js",
+  "scripts": {
+    "start": "node_modules/.bin/webpack-dev-server --content-base ./docs",
+    "build": "rm -rf ./docs && webpack --env.prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonifaty/instagram-map.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bonifaty/instagram-map/issues"
+  },
+  "homepage": "https://github.com/bonifaty/instagram-map#readme",
+  "dependencies": {
+    "b_": "^1.3.3",
+    "css-loader": "^0.28.4",
+    "file-loader": "^0.11.2",
+    "leaflet": "^1.1.0",
+    "preact": "^8.2.1",
+    "reset-css": "^2.2.0",
+    "style-loader": "^0.18.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.3.0"
+  }
+}
