@@ -22,6 +22,7 @@
     "b_": "^1.3.3",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
+    "instagram-api": "^1.0.3",
     "leaflet": "^1.1.0",
     "preact": "^8.2.1",
     "reset-css": "^2.2.0",
