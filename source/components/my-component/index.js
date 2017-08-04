@@ -26,18 +26,30 @@ class MyComponent extends Component {
             center: [37.505, 50.09],
             zoom: 3
         });
+
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             id: 'mapbox.satellite',
             accessToken: 'pk.eyJ1IjoiYW5kcmV3LWFicmFtb3YiLCJhIjoiY2o1eTdkY3V4MGFtdzMycXBmd291OXV2ZCJ9.GHLJyltLWeHbKn0EwDvpOw'
         }).addTo(map);
 
-        jsonp(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${accessToken}`, function({ data }) {
+        jsonp(`https://api.instagram.com/v1/users/1307823163/media/recent/?access_token=${accessToken}`, function({ data }) {
             data
                 .filter((item) => {
                     return !!item.location;
                 })
                 .forEach((item) => {
-                    L.marker([item.location.latitude, item.location.longitude]).addTo(map);
+                    const {
+                        url,
+                        width,
+                        height
+                    } = item.images.thumbnail;
+                    const imageIcon = L.icon({
+                        iconUrl: url,
+                        iconSize: [width / 3, height / 3],
+                        className: 'my-icon'
+                    });
+
+                    L.marker([item.location.latitude, item.location.longitude], {icon : imageIcon}).addTo(map);
                 });
         });
     }
