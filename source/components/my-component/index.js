@@ -31,8 +31,10 @@ class MyComponent extends Component {
         }).addTo(map);
 
         const accessToken = this.props.token;
-        jsonp(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${accessToken}`, function({ data }) {
-            data
+        jsonp(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${accessToken}`, function(response) {
+            console.log(response);
+
+            response.data
                 .filter((item) => {
                     return !!item.location;
                 })
