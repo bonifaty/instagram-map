@@ -3,7 +3,7 @@ const clientSecret = '16cf86bd38df43cbb39ace4d0bd88e8e';
 const url = `${location.protocol}//${location.host}${location.pathname}`;
 
 export default new Promise((resolve, reject) => {
-    const token = window.localStorage.getItem('token');
+    const token = null; //window.localStorage.getItem('token');
     if (token) {
         // TOOD: add token validation
         // check token -> if (works) -> resolve
@@ -36,7 +36,7 @@ export default new Promise((resolve, reject) => {
             };
             xhr.send(formData);
         } else {
-            location.href = `https://api.instagram.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${url}&response_type=code`;
+            location.href = `https://api.instagram.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${url}&scope=follower_list&response_type=code`;
         }
     }
 });

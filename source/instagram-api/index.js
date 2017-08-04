@@ -1,3 +1,5 @@
+const API_LINK = 'https://api.instagram.com/v1';
+
 function jsonp(url, callback) {
     const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
     window[callbackName] = function(data) {
@@ -18,7 +20,15 @@ class InstagramAPI {
 
     requestSelfPosts () {
         return new Promise((resolve, reject) => {
-            jsonp(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.accessToken}`, function(response) {
+            jsonp(`${API_LINK}/users/self/media/recent/?access_token=${this.accessToken}`, function(response) {
+                resolve(response);
+            });
+        });
+    }
+
+    requestFollows () {
+        return new Promise((resolve, reject) => {
+            jsonp(`${API_LINK}/users/self/follows?access_token=${this.accessToken}`, function(response) {
                 resolve(response);
             });
         });

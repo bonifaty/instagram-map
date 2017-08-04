@@ -19,6 +19,10 @@ class MyComponent extends Component {
             });
             this.map.renderPosts(posts);
         });
+
+        this.instagramApi.requestFollows().then((response) => {
+            console.log('users:', response);
+        });
     }
 
     render(props, state) {
