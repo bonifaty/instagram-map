@@ -30,9 +30,9 @@ class MyComponent extends Component {
                 }, {});
 
                 posts.forEach((item, index, array) => {
-                    if (array[index - 1] && item.location.id !== array[index-1].location.id) {
-                        const prevLocationId = array[index-1].location.id;
-                        counter[prevLocationId]++;
+                    if (array[index + 1] && item.location.id !== array[index+1].location.id) {
+                        const nextLocationId = array[index+1].location.id;
+                        counter[nextLocationId]++;
                     }
                     let locationId = item.location.id + '_' + counter[item.location.id];
                     if (!obj[locationId]) {
