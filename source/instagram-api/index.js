@@ -68,8 +68,8 @@ class InstagramAPI {
 
     searchUsersByName (q) {
         return new Promise((resolve, reject) => {
-            json(`https://www.instagram.com/web/search/topsearch/?query=${q}`, function(response) {
-                resolve(response);
+            json(`https://www.instagram.com/web/search/topsearch/?count=20&query=${q}`, function(response) {
+                resolve(response.users);
             });
         });
     }

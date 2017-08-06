@@ -4,6 +4,7 @@ const b = require('b_').with('my-component');
 
 import Map from '../map';
 import InstagramAPI from '../../instagram-api';
+import UsersSearch from '../users-search';
 
 class MyComponent extends Component {
     constructor (props) {
@@ -14,16 +15,18 @@ class MyComponent extends Component {
 
     componentDidMount() {
         this.instagramApi.requestSelfPosts().then((response) => {
-            const posts = response.data.filter((item) => {
-                return !!item.location;
-            });
-            this.map.renderPosts(posts);
+            if (response && response.data) {
+                const posts = response.data.filter((item) => {
+                    return !!item.location;
+                });
+                this.map.renderPosts(posts);
+            }
         });
     }
 
     render(props, state) {
         return <div className={b()}>
-            Here comes my app interface
+            <UsersSearch searchByName={this.instagramApi.searchUsersByName} />
         </div>
     }
 }
