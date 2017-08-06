@@ -33,10 +33,11 @@ class Map {
                 if (firstMarker) {
                     const {
                         url
-                    } = firstMarker.options.data.images.thumbnail;
+                    } = firstMarker.options.data.children[0].images.thumbnail;
 
                     return L.divIcon({
                         iconSize: [70, 70],
+                        iconAnchor: [35, 35],
                         className: '',
                         html: `<div class="my-icon my-icon_cluster">
                             <div class="my-icon__image" style="background-image: url(${url})">
@@ -51,9 +52,10 @@ class Map {
         posts.forEach((item) => {
             const {
                 url
-            } = item.images.thumbnail;
+            } = item.children[0].images.thumbnail;
             const icon = L.divIcon({
                 iconSize: [70, 70],
+                iconAnchor: [35, 35],
                 className: '',
                 html: `<div class="my-icon">
                     <div class="my-icon__image" style="background-image: url(${url})"></div>

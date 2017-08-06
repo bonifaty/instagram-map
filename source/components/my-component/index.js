@@ -11,15 +11,42 @@ class MyComponent extends Component {
         super();
         this.instagramApi = new InstagramAPI(props.token);
         this.map = new Map();
+
+        this.showSelfPosts();
     }
 
-    componentDidMount() {
+    showSelfPosts () {
         this.instagramApi.requestSelfPosts().then((response) => {
             if (response && response.data) {
-                const posts = response.data.filter((item) => {
-                    return !!item.location;
+                let obj = {};
+                const posts = response.data
+                    .filter((item) => {
+                        return !!item.location;
+                    });
+
+                const counter = posts.reduce((acc, item) => {
+                    acc[item.location.id] = 0;
+                    return acc;
+                }, {});
+
+                posts.forEach((item, index, array) => {
+                    if (array[index - 1] && item.location.id !== array[index-1].location.id) {
+                        const prevLocationId = array[index-1].location.id;
+                        counter[prevLocationId]++;
+                    }
+                    let locationId = item.location.id + '_' + counter[item.location.id];
+                    if (!obj[locationId]) {
+                        obj[locationId] = {
+                            location: item.location,
+                            children: []
+                        };
+                    }
+                    obj[locationId].children.push(item)
                 });
-                this.map.renderPosts(posts);
+                const locationPosts = Array.from(Object.values(obj));
+                console.log(obj);
+                console.log(counter);
+                this.map.renderPosts(locationPosts);
             }
         });
     }

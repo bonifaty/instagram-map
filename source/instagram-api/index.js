@@ -50,6 +50,14 @@ class InstagramAPI {
         });
     }
 
+    requestPostsByName (name) {
+        return new Promise((resolve, reject) => {
+            json(`https://www.instagram.com/${name}/?__a=1`, function(response) {
+                resolve(response.user.media.nodes);
+            });
+        });
+    }
+
     requestFollows () {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/self/follows?access_token=${this.accessToken}`, function(response) {
@@ -83,6 +91,8 @@ class InstagramAPI {
     }
 }
 
+
+// User info https://www.instagram.com/kevin/?__a=1
 // Search by tag https://www.instagram.com/explore/tags/test/?__a=1
 // Search by username https://www.instagram.com/web/search/topsearch/?query=name
 // Search by location id https://www.instagram.com/explore/locations/278608830/?__a=1
