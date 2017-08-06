@@ -24,6 +24,10 @@ class MyComponent extends Component {
                         return !!item.location;
                     });
 
+                posts.sort((a, b) => {
+                    return a.created_time - b.created_time
+                });
+
                 const counter = posts.reduce((acc, item) => {
                     acc[item.location.id] = 0;
                     return acc;
@@ -44,8 +48,6 @@ class MyComponent extends Component {
                     obj[locationId].children.push(item)
                 });
                 const locationPosts = Array.from(Object.values(obj));
-                console.log(obj);
-                console.log(counter);
                 this.map.renderPosts(locationPosts);
             }
         });
