@@ -13,6 +13,22 @@ function jsonp(url, callback) {
     document.body.appendChild(script);
 }
 
+function json(url, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", 'https://cors-anywhere.herokuapp.com/' + url);
+    xhr.onreadystatechange = () => {
+        let status;
+        if (xhr.readyState === 4) {
+            status = xhr.status;
+            if (status === 200) {
+                const data = JSON.parse(xhr.responseText);
+                callback(data);
+            }
+        }
+    };
+    xhr.send();
+}
+
 class InstagramAPI {
     constructor (accessToken) {
         this.accessToken = accessToken;
@@ -26,6 +42,14 @@ class InstagramAPI {
         });
     }
 
+    requestPostsById (id) {
+        return new Promise((resolve, reject) => {
+            jsonp(`${API_LINK}/users/${id}/media/recent/?access_token=${this.accessToken}`, function(response) {
+                resolve(response);
+            });
+        });
+    }
+
     requestFollows () {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/self/follows?access_token=${this.accessToken}`, function(response) {
@@ -33,7 +57,35 @@ class InstagramAPI {
             });
         });
     }
+
+    searchUsersByNameOfficial (q) {
+        return new Promise((resolve, reject) => {
+            jsonp(`${API_LINK}/users/search?q=${q}&access_token=${this.accessToken}`, function(response) {
+                resolve(response);
+            });
+        });
+    }
+
+    searchUsersByName (q) {
+        return new Promise((resolve, reject) => {
+            json(`https://www.instagram.com/web/search/topsearch/?query=${q}`, function(response) {
+                resolve(response);
+            });
+        });
+    }
+
+    searchPostsByLocationId () {
+        return new Promise((resolve, reject) => {
+            jsonp(`${API_LINK}/locations/278608830/media/recent/?access_token=${this.accessToken}`, function(response) {
+                resolve(response);
+            });
+        });
+    }
 }
+
+// Search by tag https://www.instagram.com/explore/tags/test/?__a=1
+// Search by username https://www.instagram.com/web/search/topsearch/?query=name
+// Search by location id https://www.instagram.com/explore/locations/278608830/?__a=1
 
 
 export default InstagramAPI;

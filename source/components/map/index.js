@@ -1,6 +1,10 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+import 'leaflet.markercluster';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+
 const LEAFLET_TOKEN = 'pk.eyJ1IjoiYW5kcmV3LWFicmFtb3YiLCJhIjoiY2o1eTdkY3V4MGFtdzMycXBmd291OXV2ZCJ9.GHLJyltLWeHbKn0EwDvpOw';
 
 class Map {
@@ -15,9 +19,12 @@ class Map {
             id: 'mapbox.satellite',
             accessToken: LEAFLET_TOKEN
         }).addTo(this.map);
+        console.log(L.markerClusterGroup);
     }
 
     renderPosts (posts) {
+        const markers = L.markerClusterGroup();
+
         posts.forEach((item) => {
             const {
                 url
@@ -28,8 +35,10 @@ class Map {
                 className: 'my-icon'
             });
 
-            L.marker([item.location.latitude, item.location.longitude], {icon : imageIcon}).addTo(this.map);
+            const marker = L.marker([item.location.latitude, item.location.longitude], {icon : imageIcon});
+            markers.addLayer(marker);
         });
+        this.map.addLayer(markers);
     }
 }
 
