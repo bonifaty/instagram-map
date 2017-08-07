@@ -1,4 +1,7 @@
 import { h, Component } from 'preact';
+import './users-search.styl';
+
+const b = require('b_').with('users-search');
 
 class UsersSearch extends Component {
     constructor () {
@@ -26,7 +29,7 @@ class UsersSearch extends Component {
     };
 
     render(props, state) {
-        return <div>
+        return <div className={b()}>
             <input placeholder='Enter username' type="text" onInput={this.updateInput} />
             <ul>
                 {state.usersToRender.map((user, index) => {

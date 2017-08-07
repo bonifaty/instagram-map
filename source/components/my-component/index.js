@@ -11,9 +11,20 @@ class MyComponent extends Component {
     constructor (props) {
         super();
         this.instagramApi = new InstagramAPI(props.token);
-        this.map = new Map();
+        this.map = new Map(this.handleMarkerClick.bind(this));
+        this.state = {
+            showDetails: false,
+            detailsObj: {}
+        };
 
         this.showSelfPosts();
+    }
+
+    handleMarkerClick (data) {
+        this.setState({
+            showDetails: true,
+            detailsObj: data
+        })
     }
 
     showSelfPosts () {
@@ -75,7 +86,7 @@ class MyComponent extends Component {
             <UsersSearch
                 searchByName={this.instagramApi.searchUsersByName.bind(this.instagramApi)}
                 renderUser={this.renderUser.bind(this)}/>
-            <LocationDetails />
+            <LocationDetails details={state.detailsObj} />
         </div>
     }
 }

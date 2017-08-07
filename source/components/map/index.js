@@ -8,13 +8,14 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 const LEAFLET_TOKEN = 'pk.eyJ1IjoiYW5kcmV3LWFicmFtb3YiLCJhIjoiY2o1eTdkY3V4MGFtdzMycXBmd291OXV2ZCJ9.GHLJyltLWeHbKn0EwDvpOw';
 
 class Map {
-    constructor () {
+    constructor (onMarkerClicked) {
         this.map = L.map('map', {
             center: [37.505, 50.09],
             zoom: 3,
             minZoom: 3
         });
         this.markers = null;
+        this.onMarkerClicked = onMarkerClicked;
 
 
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
@@ -23,7 +24,7 @@ class Map {
     }
 
     _handleMarkerClick (e) {
-        console.log(e.target.options.data);
+        this.onMarkerClicked(e.target.options.data);
     }
 
     renderPosts (posts) {
@@ -85,7 +86,7 @@ class Map {
                 icon : icon,
                 data: item
             });
-            marker.on('click', this._handleMarkerClick);
+            marker.on('click', this._handleMarkerClick.bind(this));
             marker.on('mouseover', (e) => {
                 e.target.setZIndexOffset(40);
             });
