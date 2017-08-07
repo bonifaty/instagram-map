@@ -13,11 +13,14 @@ class UsersSearch extends Component {
         if (e.target.value.length > 0) {
             this.props.searchByName(e.target.value).then(({data}) => {
                 if (data) {
-                    console.log(data);
                     this.setState({
                         usersToRender: data
                     });
                 }
+            })
+        } else {
+            this.setState({
+                usersToRender: []
             })
         }
     };
@@ -27,7 +30,7 @@ class UsersSearch extends Component {
             <input placeholder='Enter username' type="text" onInput={this.updateInput} />
             <ul>
                 {state.usersToRender.map((user, index) => {
-                    return <li>
+                    return <li onClick={props.renderUser.bind(this, user.id)}>
                         {user.full_name}
                     </li>;
                 })}

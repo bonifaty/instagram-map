@@ -14,6 +14,7 @@ class Map {
             zoom: 3,
             minZoom: 3
         });
+        this.markers = null;
 
 
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
@@ -26,7 +27,10 @@ class Map {
     }
 
     renderPosts (posts) {
-        const markers = L.markerClusterGroup({
+        if (this.markers) {
+            this.map.removeLayer(this.markers);
+        }
+        this.markers = L.markerClusterGroup({
             showCoverageOnHover: false,
             iconCreateFunction: function(cluster) {
                 const firstMarker = cluster.getAllChildMarkers()[0];
@@ -88,9 +92,9 @@ class Map {
             marker.on('mouseout', (e) => {
                 e.target.setZIndexOffset(30);
             });
-            markers.addLayer(marker);
+            this.markers.addLayer(marker);
         });
-        this.map.addLayer(markers);
+        this.map.addLayer(this.markers);
     }
 }
 
