@@ -5,6 +5,7 @@ const b = require('b_').with('my-component');
 import Map from '../map';
 import InstagramAPI from '../../instagram-api';
 import UsersSearch from '../users-search';
+import LocationDetails from '../location-details';
 
 class MyComponent extends Component {
     constructor (props) {
@@ -56,6 +57,7 @@ class MyComponent extends Component {
     render(props, state) {
         return <div className={b()}>
             <UsersSearch searchByName={this.instagramApi.searchUsersByName.bind(this.instagramApi)} />
+            <LocationDetails />
         </div>
     }
 }
