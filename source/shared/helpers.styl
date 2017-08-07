@@ -1,0 +1,21 @@
+$colors = {
+    darkBlue: #2a5885,
+    semiBlue: #6285af,
+    lightBlue: #f0f2f5,
+    greyBlue: #c9d0d6,
+    grey1: #818181,
+    lightGrey: #f0f0f0
+}
+
+palette(name)
+    return $colors[name]
+
+fontPTSans($size, $weight = 400, $lineHeight = 1.5)
+    font-family 'PT Sans', sans-serif
+    font-size $size
+    font-weight $weight
+    line-height $lineHeight
+
+size($width, $height = $width)
+    width $width
+    height $height

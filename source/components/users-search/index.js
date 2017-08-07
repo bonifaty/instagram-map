@@ -11,17 +11,16 @@ class UsersSearch extends Component {
 
     updateInput (e) {
         if (e.target.value.length > 0) {
-            this.props.searchByName(e.target.value).then((users) => {
-                this.setState({
-                    usersToRender: users
-                });
+            this.props.searchByName(e.target.value).then(({data}) => {
+                if (data) {
+                    console.log(data);
+                    this.setState({
+                        usersToRender: data
+                    });
+                }
             })
         }
     };
-
-    renderUsers () {
-
-    }
 
     render(props, state) {
         return <div>
@@ -29,7 +28,7 @@ class UsersSearch extends Component {
             <ul>
                 {state.usersToRender.map((user, index) => {
                     return <li>
-                        Here comes user
+                        {user.full_name}
                     </li>;
                 })}
             </ul>

@@ -55,7 +55,7 @@ class MyComponent extends Component {
 
     render(props, state) {
         return <div className={b()}>
-            <UsersSearch searchByName={this.instagramApi.searchUsersByName} />
+            <UsersSearch searchByName={this.instagramApi.searchUsersByName.bind(this.instagramApi)} />
         </div>
     }
 }

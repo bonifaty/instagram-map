@@ -59,6 +59,7 @@ class InstagramAPI {
     }
 
     requestFollows () {
+        console.log(this);
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/self/follows?access_token=${this.accessToken}`, function(response) {
                 resolve(response);
@@ -66,7 +67,7 @@ class InstagramAPI {
         });
     }
 
-    searchUsersByNameOfficial (q) {
+    searchUsersByName (q) {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/search?q=${q}&access_token=${this.accessToken}`, function(response) {
                 resolve(response);
@@ -74,7 +75,7 @@ class InstagramAPI {
         });
     }
 
-    searchUsersByName (q) {
+    searchUsersByNameUnOfficial (q) {
         return new Promise((resolve, reject) => {
             json(`https://www.instagram.com/web/search/topsearch/?count=20&query=${q}`, function(response) {
                 resolve(response.users);
