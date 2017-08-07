@@ -16,7 +16,7 @@ class Map {
         });
 
 
-        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
+        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
             accessToken: LEAFLET_TOKEN
         }).addTo(this.map);
     }
@@ -53,13 +53,28 @@ class Map {
             const {
                 url
             } = item.children[0].images.thumbnail;
+
+            const html = `<div class="my-icon">
+                <div class="my-icon__image" style="background-image: url(${url})"></div>
+                <div class="my-icon__info">
+                    <div class="my-icon__info-title">
+                        ${item.location.name}
+                    </div>
+                    ${(() => {
+                        let list = '<div class="my-icon__info-pictures">';
+                        for (let i = 1; i < item.children.length; i ++) {
+                            list += `<img class="my-icon__info-picture-item" src="${item.children[i].images.thumbnail.url}" />`;
+                        }
+                        return item.children.length > 1 ? list + '</div>' : '';
+                    })()}
+                </div>
+            </div>`;
+
             const icon = L.divIcon({
                 iconSize: [70, 70],
                 iconAnchor: [35, 35],
                 className: '',
-                html: `<div class="my-icon">
-                    <div class="my-icon__image" style="background-image: url(${url})"></div>
-                </div>`
+                html: html
             });
 
             const marker = L.marker([item.location.latitude, item.location.longitude], {
@@ -67,6 +82,12 @@ class Map {
                 data: item
             });
             marker.on('click', this._handleMarkerClick);
+            marker.on('mouseover', (e) => {
+                e.target.setZIndexOffset(40);
+            });
+            marker.on('mouseout', (e) => {
+                e.target.setZIndexOffset(30);
+            });
             markers.addLayer(marker);
         });
         this.map.addLayer(markers);
