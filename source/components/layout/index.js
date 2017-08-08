@@ -54,7 +54,7 @@ class Layout extends Component {
             <UsersSearch
                 searchByName={this.instagramApi.searchUsersByName.bind(this.instagramApi)}
                 renderUser={this.renderUser.bind(this)}/>
-            <LocationDetails visible={state.showDetails} details={state.detailsObj} />
+            <LocationDetails onCloseClick={this.hideDetails.bind(this)} visible={state.showDetails} details={state.detailsObj} />
         </div>
     }
 }

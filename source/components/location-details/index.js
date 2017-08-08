@@ -25,12 +25,13 @@ class LocationDetails extends Component {
             children
         } = props.details;
         return <div className={b({'visible': props.visible})}>
+            <div className={b('close')} onClick={props.onCloseClick}>&times;</div>
             <div className={b('title')}>{location ? location.name : ''}</div>
             <div className={b('list')}>
                 {children ? children.map((post, index) => {
                     return <div className={b('item')}>
-                        <div className={b('date')}>{this.getTime(post.created_time)}</div>
-                        <img className={b('image')} src={post.images.low_resolution.url} alt=""/>
+                        <div className={b('item-image')} style={{backgroundImage: `url(${post.images.low_resolution.url})`}} />
+                        <div className={b('item-date')}>{this.getTime(post.created_time)}</div>
                     </div>;
                 }) : ''}
             </div>

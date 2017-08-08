@@ -28,6 +28,7 @@ class Map {
 
     _handleMarkerClick (e) {
         this.onMarkerClicked(e.target.options.data);
+        this.map.panTo(e.target.getLatLng());
     }
 
     renderPosts (posts) {
@@ -98,6 +99,7 @@ class Map {
             });
             this.markers.addLayer(marker);
         });
+        this.map.fitBounds(this.markers.getBounds())
         this.map.addLayer(this.markers);
     }
 }

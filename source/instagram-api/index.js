@@ -104,7 +104,7 @@ class InstagramAPI {
     searchUsersByName (q) {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/search?q=${q}&access_token=${this.accessToken}`, function(response) {
-                resolve(postsToLocations(response.data));
+                resolve(response);
             });
         });
     }
