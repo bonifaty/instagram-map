@@ -11,7 +11,7 @@ class Layout extends Component {
     constructor (props) {
         super();
         this.instagramApi = new InstagramAPI(props.token);
-        this.map = new Map(this.handleMarkerClick.bind(this));
+        this.map = new Map(this.handleMarkerClick.bind(this), this.hideDetails.bind(this));
         this.state = {
             showDetails: false,
             detailsObj: {}
@@ -20,11 +20,17 @@ class Layout extends Component {
         this.showSelfPosts();
     }
 
+    hideDetails (e) {
+        this.setState({
+            showDetails: false
+        });
+    }
+
     handleMarkerClick (data) {
         this.setState({
             showDetails: true,
             detailsObj: data
-        })
+        });
     }
 
     showSelfPosts () {
@@ -48,7 +54,7 @@ class Layout extends Component {
             <UsersSearch
                 searchByName={this.instagramApi.searchUsersByName.bind(this.instagramApi)}
                 renderUser={this.renderUser.bind(this)}/>
-            <LocationDetails details={state.detailsObj} />
+            <LocationDetails visible={state.showDetails} details={state.detailsObj} />
         </div>
     }
 }

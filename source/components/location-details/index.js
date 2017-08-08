@@ -24,14 +24,13 @@ class LocationDetails extends Component {
             location,
             children
         } = props.details;
-        console.log(props)
-        return <div className={b()}>
-            <div>{location ? location.name : ''}</div>
-            <div>
+        return <div className={b({'visible': props.visible})}>
+            <div className={b('title')}>{location ? location.name : ''}</div>
+            <div className={b('list')}>
                 {children ? children.map((post, index) => {
-                    return <div>
-                        <div>{this.getTime(post.created_time)}</div>
-                        <img src={post.images.low_resolution.url} alt=""/>
+                    return <div className={b('item')}>
+                        <div className={b('date')}>{this.getTime(post.created_time)}</div>
+                        <img className={b('image')} src={post.images.low_resolution.url} alt=""/>
                     </div>;
                 }) : ''}
             </div>

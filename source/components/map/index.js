@@ -8,7 +8,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 const LEAFLET_TOKEN = 'pk.eyJ1IjoiYW5kcmV3LWFicmFtb3YiLCJhIjoiY2o1eTdkY3V4MGFtdzMycXBmd291OXV2ZCJ9.GHLJyltLWeHbKn0EwDvpOw';
 
 class Map {
-    constructor (onMarkerClicked) {
+    constructor (onMarkerClicked, onMapClicked) {
         this.map = L.map('map', {
             center: [37.505, 50.09],
             zoom: 3,
@@ -16,6 +16,9 @@ class Map {
         });
         this.markers = null;
         this.onMarkerClicked = onMarkerClicked;
+        this.onMapClicked = onMapClicked;
+
+        this.map.on('click', this.onMapClicked)
 
 
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
