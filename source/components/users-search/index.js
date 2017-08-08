@@ -15,7 +15,6 @@ class UsersSearch extends Component {
     updateInput (e) {
         if (e.target.value.length > 0) {
             this.props.searchByName(e.target.value).then(({data}) => {
-                console.log(data);
                 if (data) {
                     this.setState({
                         usersToRender: data
