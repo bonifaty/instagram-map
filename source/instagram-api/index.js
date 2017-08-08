@@ -29,6 +29,40 @@ function json(url, callback) {
     xhr.send();
 }
 
+function postsToLocations (data) {
+    let obj = {};
+    const posts = data
+        .filter((item) => {
+            return !!item.location;
+        });
+
+    posts.sort((a, b) => {
+        return a.created_time - b.created_time
+    });
+
+    const counter = posts.reduce((acc, item) => {
+        acc[item.location.id] = 0;
+        return acc;
+    }, {});
+
+    posts.forEach((item, index, array) => {
+        if (array[index + 1] && item.location.id !== array[index+1].location.id) {
+            const nextLocationId = array[index+1].location.id;
+            counter[nextLocationId]++;
+        }
+        let locationId = item.location.id + '_' + counter[item.location.id];
+        if (!obj[locationId]) {
+            obj[locationId] = {
+                location: item.location,
+                children: []
+            };
+        }
+        obj[locationId].children.push(item)
+    });
+
+    return Array.from(Object.values(obj));
+}
+
 class InstagramAPI {
     constructor (accessToken) {
         this.accessToken = accessToken;
@@ -37,7 +71,7 @@ class InstagramAPI {
     requestSelfPosts () {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/self/media/recent/?access_token=${this.accessToken}`, function(response) {
-                resolve(response);
+                resolve(postsToLocations(response.data));
             });
         });
     }
@@ -45,7 +79,7 @@ class InstagramAPI {
     requestPostsById (id) {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/${id}/media/recent/?access_token=${this.accessToken}`, function(response) {
-                resolve(response);
+                resolve(postsToLocations(response.data));
             });
         });
     }
@@ -70,7 +104,7 @@ class InstagramAPI {
     searchUsersByName (q) {
         return new Promise((resolve, reject) => {
             jsonp(`${API_LINK}/users/search?q=${q}&access_token=${this.accessToken}`, function(response) {
-                resolve(response);
+                resolve(postsToLocations(response.data));
             });
         });
     }
