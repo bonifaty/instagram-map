@@ -35,6 +35,9 @@ class Map {
         if (this.markers) {
             this.map.removeLayer(this.markers);
         }
+        if (this.line) {
+            this.map.removeLayer(this.line);
+        }
         this.markers = L.markerClusterGroup({
             showCoverageOnHover: false,
             iconCreateFunction: function(cluster) {
@@ -58,6 +61,7 @@ class Map {
             }
         });
 
+        let latlngs = [];
         posts.forEach((item) => {
             const {
                 url
@@ -86,10 +90,12 @@ class Map {
                 html: html
             });
 
+            latlngs.push([item.location.latitude, item.location.longitude]);
             const marker = L.marker([item.location.latitude, item.location.longitude], {
                 icon : icon,
                 data: item
             });
+
             marker.on('click', this._handleMarkerClick.bind(this));
             marker.on('mouseover', (e) => {
                 e.target.setZIndexOffset(40);
@@ -97,10 +103,14 @@ class Map {
             marker.on('mouseout', (e) => {
                 e.target.setZIndexOffset(30);
             });
+
             this.markers.addLayer(marker);
         });
-        this.map.fitBounds(this.markers.getBounds())
+        this.map.fitBounds(this.markers.getBounds());
         this.map.addLayer(this.markers);
+
+        this.line = L.polyline(latlngs, {color: `rgba(0,0,0,0.5)`});
+        this.map.addLayer(this.line);
     }
 }
 

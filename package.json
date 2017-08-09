@@ -22,7 +22,7 @@
     "b_": "^1.3.3",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
-    "leaflet": "^1.1.0",
+    "leaflet": "^1.2.0",
     "leaflet.markercluster": "^1.0.6",
     "preact": "^8.2.1",
     "reset-css": "^2.2.0",
