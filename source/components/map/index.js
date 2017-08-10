@@ -4,6 +4,7 @@ import './map.styl';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
+import '../../vendor/leaflet.curve';
 
 const LEAFLET_TOKEN = 'pk.eyJ1IjoiYW5kcmV3LWFicmFtb3YiLCJhIjoiY2o1eTdkY3V4MGFtdzMycXBmd291OXV2ZCJ9.GHLJyltLWeHbKn0EwDvpOw';
 
@@ -62,7 +63,7 @@ class Map {
         });
 
         let latlngs = [];
-        posts.forEach((item) => {
+        posts.forEach((item, index) => {
             const {
                 url
             } = item.children[0].images.thumbnail;
@@ -90,7 +91,23 @@ class Map {
                 html: html
             });
 
-            latlngs.push([item.location.latitude, item.location.longitude]);
+            if (posts[index+1]) {
+                /*latlngs.push(L.polyline([
+                    [item.location.latitude, item.location.longitude],
+                    [posts[index+1].location.latitude, posts[index+1].location.longitude],
+                ], {color: 'red'}));*/
+                const midpointLat = (item.location.latitude + posts[index+1].location.latitude) / 2;
+                const midpointLong = (item.location.longitude + posts[index+1].location.longitude) / 2;
+                const a = item.location.latitude - posts[index+1].location.latitude;
+                const b = item.location.longitude - posts[index+1].location.longitude;
+                const distance = Math.sqrt( a*a + b*b );
+                console.log();
+
+                latlngs.push(L.curve(['M',[item.location.latitude,item.location.longitude],
+                        'Q',[midpointLat+distance/7, midpointLong+distance/7],
+                        [posts[index+1].location.latitude, posts[index+1].location.longitude]],
+                    {color:'rgba(0,0,0,0.6)'}))
+            }
             const marker = L.marker([item.location.latitude, item.location.longitude], {
                 icon : icon,
                 data: item
@@ -106,11 +123,11 @@ class Map {
 
             this.markers.addLayer(marker);
         });
-        this.map.fitBounds(this.markers.getBounds());
-        this.map.addLayer(this.markers);
-
-        this.line = L.polyline(latlngs, {color: `rgba(0,0,0,0.5)`});
+        this.line = L.featureGroup(latlngs);
         this.map.addLayer(this.line);
+
+        this.map.fitBounds(this.line.getBounds());
+        this.map.addLayer(this.markers);
     }
 }
 
