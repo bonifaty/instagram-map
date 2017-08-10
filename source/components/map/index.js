@@ -101,10 +101,10 @@ class Map {
                 const a = item.location.latitude - posts[index+1].location.latitude;
                 const b = item.location.longitude - posts[index+1].location.longitude;
                 const distance = Math.sqrt( a*a + b*b );
-                console.log();
+                const sign = index % 2 === 0 ? -1 : 1;
 
                 latlngs.push(L.curve(['M',[item.location.latitude,item.location.longitude],
-                        'Q',[midpointLat+distance/7, midpointLong+distance/7],
+                        'Q',[midpointLat + sign * distance/7, midpointLong + sign * distance/7],
                         [posts[index+1].location.latitude, posts[index+1].location.longitude]],
                     {color:'rgba(0,0,0,0.6)'}))
             }
